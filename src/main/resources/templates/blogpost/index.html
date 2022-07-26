@@ -36,10 +36,20 @@
 							<!-- Link to Update -->
 							<!-- Link to Show  -->
 							<!--  Link to Destroy -->
-							Buttons
+							<form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
+								class="form-horizontal">
+								<div class="form-group">
+									<input type="hidden" name="id" th:value="${blog.id}">
+									<input type="hidden" name="_method" value="delete" />
+									<button type="submit" class="btn btn-danger btn-block"
+										th:text="Delete">Delete</button>
+								</div>
+							</form>
+
 						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 
