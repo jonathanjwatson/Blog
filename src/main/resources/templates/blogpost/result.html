@@ -17,21 +17,29 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col">
-				<h3>Blog Post Form</h3>
-				<p>Thank you for your submission!</p>
-				<h4>Blog Post:</h4>
-				<p th:text="${title}" />
-				<p th:text="${author}" />
-				<p th:text="${blogEntry}" />
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h1 th:text="${title}"></h1>
+					</div>
+					<div class="panel-body">
+						<strong>
+							<p th:text="${author}" />
+						</strong>
+						<p th:text="${blogEntry}" />
+					</div>
+					<div class="panel-footer">
+						<!-- Link to Update -->
+						<!-- Link to Show  -->
+						<!--  Link to Destroy -->
+						<a th:href="@{/}"><button class="btn btn-success">Back To Home Page</button></a>
+						<a th:href="@{/blogposts/new}"><button class="btn btn-primary">Submit a New Blog
+								Post</button></a>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col">
-				<a th:href="@{/}"><button class="btn btn-success">Back To Home Page</button></a>
-				<a th:href="@{/blog_posts/new}"><button class="btn btn-primary">Submit a New Blog Post</button></a>
-			</div>
-		</div>
+	</div>
 </body>
 
 </html>
