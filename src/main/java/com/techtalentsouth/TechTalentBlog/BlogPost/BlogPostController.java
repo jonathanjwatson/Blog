@@ -27,18 +27,13 @@ public class BlogPostController {
 		return "blogpost/index";
 	}
 
-	// TODO: Read a single blog post at a time.
-
 	@GetMapping(value = "/blogposts/{id}")
 	public String viewPostById(@PathVariable Long id, BlogPost blogpost, Model model) {
-		// 1. I need the blogpost data for that id.
-		Optional<BlogPost> optionalBlogPost = blogPostRepository.findById(id);
-		// FIXME: What if there is no blogpost found with that id?
-		BlogPost blogPost = optionalBlogPost.get();
-		// 2. I need to display the result page.
-			model.addAttribute("title", blogPost.getTitle());
-			model.addAttribute("author", blogPost.getAuthor());
-			model.addAttribute("blogEntry", blogPost.getBlogEntry());
+		Optional<BlogPost> post = blogPostRepository.findById(id);
+		if (post.isPresent()) {
+			BlogPost actualPost = post.get();
+			model.addAttribute("blogPost", actualPost);
+		}
 
 		return "blogpost/result";
 	}
@@ -52,16 +47,37 @@ public class BlogPostController {
 	public String addNewBlogPost(BlogPost blogPost, Model model) {
 		BlogPost savedBlogPost = blogPostRepository
 				.save(new BlogPost(blogPost.getTitle(), blogPost.getAuthor(), blogPost.getBlogEntry()));
-		model.addAttribute("title", savedBlogPost.getTitle());
-		model.addAttribute("author", savedBlogPost.getAuthor());
-		model.addAttribute("blogEntry", savedBlogPost.getBlogEntry());
+		model.addAttribute("blogPost", savedBlogPost);
 		// TODO: Build the single blogpost page, and redirect there instead.
 		return "blogpost/result";
 	}
 
 	// TODO: GET Route to display the Edit page
+	@GetMapping(value = "/blogposts/{id}/edit")
+	public String editBlog(@PathVariable Long id, BlogPost blogPost, Model model) {
+		Optional<BlogPost> post = blogPostRepository.findById(id);
+		if (post.isPresent()) {
+			BlogPost actualPost = post.get();
+			model.addAttribute("blogPost", actualPost);
+		}
+		return "blogpost/edit";
+	}
 
 	// TODO: PUT Route to actually edit the page from the Edit page form submission
+
+	@RequestMapping(value = "/blogposts/{id}")
+	public String updateBlogPost(@PathVariable Long id, BlogPost blogPost, Model model) {
+		Optional<BlogPost> post = blogPostRepository.findById(id);
+		if (post.isPresent()) {
+			BlogPost actualPost = post.get();
+			actualPost.setTitle(blogPost.getTitle());
+			actualPost.setAuthor(blogPost.getAuthor());
+			actualPost.setBlogEntry(blogPost.getBlogEntry());
+			blogPostRepository.save(actualPost);
+			model.addAttribute("blogPost", actualPost);
+		}
+		return "blogpost/result";
+	}
 
 	@RequestMapping(value = "/blogposts/{id}", method = RequestMethod.DELETE)
 	public String deletePostWithId(@PathVariable Long id, BlogPost blogPost) {

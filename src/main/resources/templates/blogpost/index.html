@@ -26,13 +26,19 @@
 						</div>
 						<div class="panel-footer">
 							<!-- Link to Update -->
+							<a href="#" th:href="@{blogposts/{id}/edit(id=${blog.id})}">
+								<button class="btn btn-light">Edit Post</button>
+							</a>
 							<!-- Link to Show  -->
+							<a href="#" th:href="@{blogposts/{id}(id=${blog.id})}">
+								<button class="btn btn-light ">View Post</button>
+							</a>
 							<!--  Link to Destroy -->
 							<form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
 								class="form-horizontal">
 								<div class="form-group">
 									<input type="hidden" name="_method" value="delete" />
-									<button type="submit" class="btn btn-danger btn-block"
+									<button type="submit" class="btn btn-danger"
 										th:text="Delete">Delete</button>
 								</div>
 							</form>
