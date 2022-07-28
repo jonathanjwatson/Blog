@@ -18,7 +18,7 @@ public class BlogPostController {
 
 	@Autowired
 	private BlogPostRepository blogPostRepository;
-	private static List<BlogPost> posts = new ArrayList<>();
+//	private static List<BlogPost> posts = new ArrayList<>();
 
 	@GetMapping(value = "/")
 	public String index(BlogPost blogPost, Model model) {
@@ -31,15 +31,13 @@ public class BlogPostController {
 		return "blogpost/new";
 	}
 
-	private BlogPost blogPost;
-
 	@PostMapping(value = "/blogposts")
 	public String addNewBlogPost(BlogPost blogPost, Model model) {
 		BlogPost savedBlogPost = blogPostRepository.save(new BlogPost(blogPost.getTitle(), blogPost.getAuthor(), blogPost.getBlogEntry()));
-		posts.add(savedBlogPost);
-		model.addAttribute("title", blogPost.getTitle());
-		model.addAttribute("author", blogPost.getAuthor());
-		model.addAttribute("blogEntry", blogPost.getBlogEntry());
+		model.addAttribute("title", savedBlogPost.getTitle());
+		model.addAttribute("author", savedBlogPost.getAuthor());
+		model.addAttribute("blogEntry", savedBlogPost.getBlogEntry());
+		// TODO: Build the single blogpost page, and redirect there instead.
 		return "blogpost/result";
 	}
 
